@@ -1,0 +1,245 @@
+
+
+URL_MAX_LEN = 200 
+
+SHA_LEN = 40 
+IMAGE_MAX_BYTES = 5000000
+
+ICAL_MAX_BYTES = 1000000
+
+/**
+* Type CalendarEvent Status (according RFC 5545 iCalendar)
+*/
+enum TypeCalendarEventStatus {
+  TENTATIVE, CONFIRMED, CANCELLED, NEEDS_ACTION, COMPLETED, IN_PROCESS, CANCELLED, DRAFT, FINAL, CANCELLED
+}
+
+/**
+ * Entity CalendarEvent
+ */
+entity CalendarEvent {
+
+  /**
+  * UUID of the event (required by RFC 5545 iCalendar)
+  */
+  uid UUID,
+
+  /**
+  * Title of the event
+  */
+  title String,
+
+  /**
+  * Subtitle of the event
+  */
+  subTitle String,
+
+  /**
+  * Short description of the event
+  */
+  description String,
+
+  /**
+  * Long description of the event (Rich text)
+  */
+  longDescription TextBlob,
+
+  /**
+  * Status of the event
+  */
+  status TypeCalendarEventStatus,
+
+  /**
+  * Priority of the event
+  */
+  priority Integer min(0),
+
+  /**
+  * Place of the event
+  */
+  place String,
+
+  /**
+  * location of the event (GPS)
+  */
+  location String pattern(/^((-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?),(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,18})?|180(?:\.0{1,18})?)(,[0-9]{2}))?$/),
+
+
+  /**
+  * CSS theme of the event
+  */
+  cssTheme String,
+
+  /**
+  * Public URL of the event
+  */
+  url String maxlength(URL_MAX_LEN), // @TODO add a regex pattern
+
+  /**
+  * Flag for a public event
+  */
+  isPublic Boolean required,
+
+  /**
+  * Start date of the event
+  */
+  startDate Instant required,
+
+  /**
+  * End date of the event (should be after startDate)
+  */
+  endDate Instant,
+
+  /**
+  * Horaires of the event
+  */
+  openingHours String, // TODO PATTERN for a list of day and time ranges
+
+  /**
+  * Image of the event
+  */
+  image ImageBlob maxbytes(IMAGE_MAX_BYTES),
+  imageSha1 String minlength(SHA_LEN) maxlength(SHA_LEN) pattern(/[a-f0-9]{40}/),
+  imageUrl String minlength(URL_MAX_LEN),
+
+  /**
+  * Thumbnail of the event image
+  */
+  thumbnail ImageBlob maxbytes(IMAGE_MAX_BYTES),
+  thumbnailSha1 String minlength(SHA_LEN) maxlength(SHA_LEN) pattern(/[a-f0-9]{40}/),
+
+
+  /**
+  * RFC 5545 iCalendar of the event
+  */
+  ical Blob maxbytes(ICAL_MAX_BYTES),
+
+  /**
+  * Creation date of the event
+  */
+  createdAt Instant required,
+
+  /**
+  * Update date of the event
+  */
+  updatedAt Instant
+}
+
+/**
+ * Entity Calendar
+ */
+entity Calendar {
+
+  /**
+  * UUID of the event (for iCal)
+  */
+  uid UUID,
+
+  /**
+  * Title of the calendar
+  */
+  title String,
+
+  /**
+  * Subtitle of the calendar
+  */
+  subTitle String,
+
+  /**
+  * Short description of the calendar
+  */
+  description String,
+
+  /**
+  * Long description of the calendar (Rich text)
+  */
+  longDescription TextBlob,
+
+  /**
+  * Creation date of the calendar
+  */
+  createdAt Instant required,
+
+  /**
+  * Update date of the calendar
+  */
+  updatedAt Instant
+
+}
+
+
+/**
+* Type TypeCalendarProvider
+*/
+enum TypeCalendarProvider {
+  GOOGLE, APPLE, MICROSOFT, MOZILLA
+}
+
+/**
+ * Entity CalendarProvider
+ */
+entity CalendarProvider {
+
+  /**
+  * Provider of the calendar
+  */
+  provider TypeCalendarProvider required,
+
+ /**
+  * User identifier of the calendar provider
+  */
+  identifier String required,
+
+ /**
+  * Provider of the calendar provider
+  */
+  credential String required,
+
+ /**
+  * Credential Extra 1 of the calendar provider
+  */
+  credentialExtra1 String,
+
+ /**
+  * Credential Extra 2 of the calendar provider
+  */
+  credentialExtra2 String,
+
+  /**
+  * Creation date of the calendar provider
+  */
+  createdAt Instant required,
+
+  /**
+  * Update date of the calendar provider
+  */
+  updatedAt Instant
+
+}
+
+relationship ManyToOne {
+    Calendar{ownedBy(login)} to User,
+    CalendarEvent{createdBy(login)} to User,
+    CalendarEvent{calendar(title)} to Calendar,
+    
+    CalendarProvider{ownedBy(login)} to User
+}
+
+relationship ManyToMany {
+    Calendar{sharedWith(login)} to User
+}
+
+// Set pagination options
+paginate * with pagination except CalendarEvent
+paginate CalendarEvent with infinite-scroll
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+// Set service options to all except few
+service all with serviceImpl
+// Set an angular suffix
+//angularSuffix * with calendar
+// Set search
+search * with elasticsearch
+//Set filtering
+filter *

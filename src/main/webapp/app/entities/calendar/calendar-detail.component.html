@@ -1,0 +1,64 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="calendar">
+            <h2><span jhiTranslate="fullCalendarApp.calendar.detail.title">Calendar</span> {{ calendar.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="fullCalendarApp.calendar.uid" [ngbTooltip]="'fullCalendarApp.calendar.help.uid' | translate">Uid</span></dt>
+                <dd>
+                    <span>{{ calendar.uid }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendar.title" [ngbTooltip]="'fullCalendarApp.calendar.help.title' | translate">Title</span></dt>
+                <dd>
+                    <span>{{ calendar.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendar.subTitle" [ngbTooltip]="'fullCalendarApp.calendar.help.subTitle' | translate">Sub Title</span></dt>
+                <dd>
+                    <span>{{ calendar.subTitle }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendar.description" [ngbTooltip]="'fullCalendarApp.calendar.help.description' | translate">Description</span></dt>
+                <dd>
+                    <span>{{ calendar.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendar.longDescription" [ngbTooltip]="'fullCalendarApp.calendar.help.longDescription' | translate">Long Description</span></dt>
+                <dd>
+                    <span>{{ calendar.longDescription }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendar.createdAt" [ngbTooltip]="'fullCalendarApp.calendar.help.createdAt' | translate">Created At</span></dt>
+                <dd>
+                    <span>{{ calendar.createdAt }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendar.updatedAt" [ngbTooltip]="'fullCalendarApp.calendar.help.updatedAt' | translate">Updated At</span></dt>
+                <dd>
+                    <span>{{ calendar.updatedAt }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendar.ownedBy">Owned By</span></dt>
+                <dd>
+                    {{ calendar.ownedByLogin }}
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendar.sharedWith">Shared With</span></dt>
+                <dd>
+                    <span *ngFor="let sharedWith of calendar.sharedWiths; let last = last">
+                        {{ sharedWith.login }}{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/calendar', calendar.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

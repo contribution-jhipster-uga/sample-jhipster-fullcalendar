@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="calendarProvider">
+            <h2><span jhiTranslate="fullCalendarApp.calendarProvider.detail.title">Calendar Provider</span> {{ calendarProvider.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="fullCalendarApp.calendarProvider.provider" [ngbTooltip]="'fullCalendarApp.calendarProvider.help.provider' | translate">Provider</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'fullCalendarApp.TypeCalendarProvider.' + calendarProvider.provider }}">{{ calendarProvider.provider }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarProvider.identifier" [ngbTooltip]="'fullCalendarApp.calendarProvider.help.identifier' | translate">Identifier</span></dt>
+                <dd>
+                    <span>{{ calendarProvider.identifier }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarProvider.credential" [ngbTooltip]="'fullCalendarApp.calendarProvider.help.credential' | translate">Credential</span></dt>
+                <dd>
+                    <span>{{ calendarProvider.credential }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarProvider.credentialExtra1" [ngbTooltip]="'fullCalendarApp.calendarProvider.help.credentialExtra1' | translate">Credential Extra 1</span></dt>
+                <dd>
+                    <span>{{ calendarProvider.credentialExtra1 }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarProvider.credentialExtra2" [ngbTooltip]="'fullCalendarApp.calendarProvider.help.credentialExtra2' | translate">Credential Extra 2</span></dt>
+                <dd>
+                    <span>{{ calendarProvider.credentialExtra2 }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarProvider.createdAt" [ngbTooltip]="'fullCalendarApp.calendarProvider.help.createdAt' | translate">Created At</span></dt>
+                <dd>
+                    <span>{{ calendarProvider.createdAt }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarProvider.updatedAt" [ngbTooltip]="'fullCalendarApp.calendarProvider.help.updatedAt' | translate">Updated At</span></dt>
+                <dd>
+                    <span>{{ calendarProvider.updatedAt }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarProvider.ownedBy">Owned By</span></dt>
+                <dd>
+                    {{ calendarProvider.ownedByLogin }}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/calendar-provider', calendarProvider.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

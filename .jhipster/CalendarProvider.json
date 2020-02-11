@@ -1,0 +1,74 @@
+{
+    "name": "CalendarProvider",
+    "fields": [
+        {
+            "fieldName": "provider",
+            "javadoc": "Provider of the calendar",
+            "fieldType": "TypeCalendarProvider",
+            "fieldValues": "GOOGLE,APPLE,MICROSOFT,MOZILLA",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "identifier",
+            "javadoc": "User identifier of the calendar provider",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "credential",
+            "javadoc": "Provider of the calendar provider",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "credentialExtra1",
+            "javadoc": "Credential Extra 1 of the calendar provider",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "credentialExtra2",
+            "javadoc": "Credential Extra 2 of the calendar provider",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdAt",
+            "javadoc": "Creation date of the calendar provider",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updatedAt",
+            "javadoc": "Update date of the calendar provider",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "calendarProvider",
+            "relationshipName": "ownedBy",
+            "otherEntityField": "login"
+        }
+    ],
+    "changelogDate": "20200211162700",
+    "javadoc": "Entity CalendarProvider",
+    "entityTableName": "calendar_provider",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

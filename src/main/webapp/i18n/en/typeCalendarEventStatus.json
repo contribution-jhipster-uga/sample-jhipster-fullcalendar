@@ -1,0 +1,15 @@
+{
+  "fullCalendarApp": {
+    "TypeCalendarEventStatus": {
+      "null": "",
+      "TENTATIVE": "TENTATIVE",
+      "CONFIRMED": "CONFIRMED",
+      "CANCELLED": "CANCELLED",
+      "NEEDS_ACTION": "NEEDS_ACTION",
+      "COMPLETED": "COMPLETED",
+      "IN_PROCESS": "IN_PROCESS",
+      "DRAFT": "DRAFT",
+      "FINAL": "FINAL"
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+    "name": "Calendar",
+    "fields": [
+        {
+            "fieldName": "uid",
+            "javadoc": "UUID of the event (for iCal)",
+            "fieldType": "UUID"
+        },
+        {
+            "fieldName": "title",
+            "javadoc": "Title of the calendar",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "subTitle",
+            "javadoc": "Subtitle of the calendar",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "javadoc": "Short description of the calendar",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "longDescription",
+            "javadoc": "Long description of the calendar (Rich text)",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "createdAt",
+            "javadoc": "Creation date of the calendar",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updatedAt",
+            "javadoc": "Update date of the calendar",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "calendar",
+            "relationshipName": "ownedBy",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "calendar",
+            "relationshipName": "sharedWith",
+            "otherEntityField": "login",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20200211162600",
+    "javadoc": "Entity Calendar",
+    "entityTableName": "calendar",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*",
+    "searchEngine": "elasticsearch"
+}

@@ -1,0 +1,11 @@
+{
+  "fullCalendarApp": {
+    "TypeCalendarProvider": {
+      "null": "",
+      "GOOGLE": "GOOGLE",
+      "APPLE": "APPLE",
+      "MICROSOFT": "MICROSOFT",
+      "MOZILLA": "MOZILLA"
+    }
+  }
+}

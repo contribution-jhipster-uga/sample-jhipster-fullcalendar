@@ -1,0 +1,69 @@
+{
+  "fullCalendarApp": {
+    "calendarEvent": {
+      "home": {
+        "title": "Calendar Events",
+        "createLabel": "Create a new Calendar Event",
+        "createOrEditLabel": "Create or edit a Calendar Event",
+        "search": "Search for Calendar Event",
+        "notFound": "No Calendar Events found"
+      },
+      "created": "A new Calendar Event is created with identifier {{ param }}",
+      "updated": "A Calendar Event is updated with identifier {{ param }}",
+      "deleted": "A Calendar Event is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Calendar Event {{ id }}?"
+      },
+      "detail": {
+        "title": "Calendar Event"
+      },
+      "uid": "Uid",
+      "title": "Title",
+      "subTitle": "Sub Title",
+      "description": "Description",
+      "longDescription": "Long Description",
+      "status": "Status",
+      "priority": "Priority",
+      "place": "Place",
+      "location": "Location",
+      "cssTheme": "Css Theme",
+      "url": "Url",
+      "isPublic": "Is Public",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "openingHours": "Opening Hours",
+      "image": "Image",
+      "imageSha1": "Image Sha 1",
+      "imageUrl": "Image Url",
+      "thumbnail": "Thumbnail",
+      "thumbnailSha1": "Thumbnail Sha 1",
+      "ical": "Ical",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "createdBy": "Created By",
+      "calendar": "Calendar",
+      "help": {
+        "uid": "UUID of the event (required by RFC 5545 iCalendar)",
+        "title": "Title of the event",
+        "subTitle": "Subtitle of the event",
+        "description": "Short description of the event",
+        "longDescription": "Long description of the event (Rich text)",
+        "status": "Status of the event",
+        "priority": "Priority of the event",
+        "place": "Place of the event",
+        "location": "location of the event (GPS)",
+        "cssTheme": "CSS theme of the event",
+        "url": "Public URL of the event",
+        "isPublic": "Flag for a public event",
+        "startDate": "Start date of the event",
+        "endDate": "End date of the event (should be after startDate)",
+        "openingHours": "Horaires of the event",
+        "image": "Image of the event",
+        "thumbnail": "Thumbnail of the event image",
+        "ical": "RFC 5545 iCalendar of the event",
+        "createdAt": "Creation date of the event",
+        "updatedAt": "Update date of the event"
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "fullCalendarApp": {
+    "calendar": {
+      "home": {
+        "title": "Calendars",
+        "createLabel": "Create a new Calendar",
+        "createOrEditLabel": "Create or edit a Calendar",
+        "search": "Search for Calendar",
+        "notFound": "No Calendars found"
+      },
+      "created": "A new Calendar is created with identifier {{ param }}",
+      "updated": "A Calendar is updated with identifier {{ param }}",
+      "deleted": "A Calendar is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Calendar {{ id }}?"
+      },
+      "detail": {
+        "title": "Calendar"
+      },
+      "uid": "Uid",
+      "title": "Title",
+      "subTitle": "Sub Title",
+      "description": "Description",
+      "longDescription": "Long Description",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "ownedBy": "Owned By",
+      "sharedWith": "Shared With",
+      "help": {
+        "uid": "UUID of the event (for iCal)",
+        "title": "Title of the calendar",
+        "subTitle": "Subtitle of the calendar",
+        "description": "Short description of the calendar",
+        "longDescription": "Long description of the calendar (Rich text)",
+        "createdAt": "Creation date of the calendar",
+        "updatedAt": "Update date of the calendar"
+      }
+    }
+  }
+}

@@ -1,0 +1,329 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-calendar-event-heading" jhiTranslate="fullCalendarApp.calendarEvent.home.createOrEditLabel">Create or edit a Calendar Event</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.uid" for="field_uid" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.uid' | translate">Uid</label>
+                    <input type="text" class="form-control" name="uid" id="field_uid"
+                           formControlName="uid"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.title" for="field_title" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.title' | translate">Title</label>
+                    <input type="text" class="form-control" name="title" id="field_title"
+                           formControlName="title"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.subTitle" for="field_subTitle" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.subTitle' | translate">Sub Title</label>
+                    <input type="text" class="form-control" name="subTitle" id="field_subTitle"
+                           formControlName="subTitle"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.description" for="field_description" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.description' | translate">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                           formControlName="description"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.longDescription" for="field_longDescription" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.longDescription' | translate">Long Description</label>
+                    <textarea class="form-control" name="longDescription" id="field_longDescription"
+                              formControlName="longDescription"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.status" for="field_status" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.status' | translate">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="TENTATIVE">{{ 'fullCalendarApp.TypeCalendarEventStatus.TENTATIVE' | translate }}</option>
+                        <option value="CONFIRMED">{{ 'fullCalendarApp.TypeCalendarEventStatus.CONFIRMED' | translate }}</option>
+                        <option value="CANCELLED">{{ 'fullCalendarApp.TypeCalendarEventStatus.CANCELLED' | translate }}</option>
+                        <option value="NEEDS_ACTION">{{ 'fullCalendarApp.TypeCalendarEventStatus.NEEDS_ACTION' | translate }}</option>
+                        <option value="COMPLETED">{{ 'fullCalendarApp.TypeCalendarEventStatus.COMPLETED' | translate }}</option>
+                        <option value="IN_PROCESS">{{ 'fullCalendarApp.TypeCalendarEventStatus.IN_PROCESS' | translate }}</option>
+                        <option value="DRAFT">{{ 'fullCalendarApp.TypeCalendarEventStatus.DRAFT' | translate }}</option>
+                        <option value="FINAL">{{ 'fullCalendarApp.TypeCalendarEventStatus.FINAL' | translate }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.priority" for="field_priority" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.priority' | translate">Priority</label>
+                    <input type="number" class="form-control" name="priority" id="field_priority"
+                           formControlName="priority"/>
+                    <div *ngIf="editForm.get('priority')!.invalid && (editForm.get('priority')!.dirty || editForm.get('priority')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('priority')?.errors?.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">
+                            This field should be at least 0.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('priority')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.place" for="field_place" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.place' | translate">Place</label>
+                    <input type="text" class="form-control" name="place" id="field_place"
+                           formControlName="place"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.location" for="field_location" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.location' | translate">Location</label>
+                    <input type="text" class="form-control" name="location" id="field_location"
+                           formControlName="location"/>
+                    <div *ngIf="editForm.get('location')!.invalid && (editForm.get('location')!.dirty || editForm.get('location')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('location')?.errors?.pattern" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Location' }">
+                            This field should follow pattern for "Location".
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.cssTheme" for="field_cssTheme" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.cssTheme' | translate">Css Theme</label>
+                    <input type="text" class="form-control" name="cssTheme" id="field_cssTheme"
+                           formControlName="cssTheme"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.url" for="field_url" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.url' | translate">Url</label>
+                    <input type="text" class="form-control" name="url" id="field_url"
+                           formControlName="url"/>
+                    <div *ngIf="editForm.get('url')!.invalid && (editForm.get('url')!.dirty || editForm.get('url')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('url')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 200 }">
+                        This field cannot be longer than 200 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.isPublic" for="field_isPublic" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.isPublic' | translate">Is Public</label>
+                    <input type="checkbox" class="form-control" name="isPublic" id="field_isPublic"
+                           formControlName="isPublic"/>
+                    <div *ngIf="editForm.get('isPublic')!.invalid && (editForm.get('isPublic')!.dirty || editForm.get('isPublic')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('isPublic')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.startDate" for="field_startDate" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.startDate' | translate">Start Date</label>
+                    <div class="d-flex">
+                        <input id="field_startDate" type="datetime-local" class="form-control" name="startDate" formControlName="startDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('startDate')!.invalid && (editForm.get('startDate')!.dirty || editForm.get('startDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('startDate')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('startDate')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.endDate" for="field_endDate" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.endDate' | translate">End Date</label>
+                    <div class="d-flex">
+                        <input id="field_endDate" type="datetime-local" class="form-control" name="endDate" formControlName="endDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.openingHours" for="field_openingHours" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.openingHours' | translate">Opening Hours</label>
+                    <input type="text" class="form-control" name="openingHours" id="field_openingHours"
+                           formControlName="openingHours"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.image" for="field_image" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.image' | translate">Image</label>
+                    <div>
+                        <img [src]="'data:' + editForm.get('imageContentType')!.value + ';base64,' + editForm.get('image')!.value" style="max-height: 100px;" *ngIf="editForm.get('image')!.value" alt="calendarEvent image"/>
+                        <div *ngIf="editForm.get('image')!.value" class="form-text text-danger clearfix">
+                            <span class="pull-left">{{ editForm.get('imageContentType')!.value }}, {{ byteSize(editForm.get('image')!.value) }}</span>
+                            <button type="button" (click)="clearInputImage('image', 'imageContentType', 'file_image')" class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_image" (change)="setFileData($event, 'image', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="image" id="field_image"
+                           formControlName="image"/>
+                    <input type="hidden" class="form-control" name="imageContentType" id="field_imageContentType"
+                           formControlName="imageContentType" />
+                    <div *ngIf="editForm.get('image')!.invalid && (editForm.get('image')!.dirty || editForm.get('image')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('image')?.errors?.maxbytes" jhiTranslate="entity.validation.maxbytes" [translateValues]="{ max: 5000000 }">
+                            This field cannot be more than 5000000.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.imageSha1" for="field_imageSha1">Image Sha 1</label>
+                    <input type="text" class="form-control" name="imageSha1" id="field_imageSha1"
+                           formControlName="imageSha1"/>
+                    <div *ngIf="editForm.get('imageSha1')!.invalid && (editForm.get('imageSha1')!.dirty || editForm.get('imageSha1')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('imageSha1')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 40 }">
+                        This field is required to be at least 40 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('imageSha1')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 40 }">
+                        This field cannot be longer than 40 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('imageSha1')?.errors?.pattern" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Image Sha 1' }">
+                            This field should follow pattern for "Image Sha 1".
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.imageUrl" for="field_imageUrl">Image Url</label>
+                    <input type="text" class="form-control" name="imageUrl" id="field_imageUrl"
+                           formControlName="imageUrl"/>
+                    <div *ngIf="editForm.get('imageUrl')!.invalid && (editForm.get('imageUrl')!.dirty || editForm.get('imageUrl')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('imageUrl')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 200 }">
+                        This field is required to be at least 200 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.thumbnail" for="field_thumbnail" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.thumbnail' | translate">Thumbnail</label>
+                    <div>
+                        <img [src]="'data:' + editForm.get('thumbnailContentType')!.value + ';base64,' + editForm.get('thumbnail')!.value" style="max-height: 100px;" *ngIf="editForm.get('thumbnail')!.value" alt="calendarEvent image"/>
+                        <div *ngIf="editForm.get('thumbnail')!.value" class="form-text text-danger clearfix">
+                            <span class="pull-left">{{ editForm.get('thumbnailContentType')!.value }}, {{ byteSize(editForm.get('thumbnail')!.value) }}</span>
+                            <button type="button" (click)="clearInputImage('thumbnail', 'thumbnailContentType', 'file_thumbnail')" class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_thumbnail" (change)="setFileData($event, 'thumbnail', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="thumbnail" id="field_thumbnail"
+                           formControlName="thumbnail"/>
+                    <input type="hidden" class="form-control" name="thumbnailContentType" id="field_thumbnailContentType"
+                           formControlName="thumbnailContentType" />
+                    <div *ngIf="editForm.get('thumbnail')!.invalid && (editForm.get('thumbnail')!.dirty || editForm.get('thumbnail')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('thumbnail')?.errors?.maxbytes" jhiTranslate="entity.validation.maxbytes" [translateValues]="{ max: 5000000 }">
+                            This field cannot be more than 5000000.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.thumbnailSha1" for="field_thumbnailSha1">Thumbnail Sha 1</label>
+                    <input type="text" class="form-control" name="thumbnailSha1" id="field_thumbnailSha1"
+                           formControlName="thumbnailSha1"/>
+                    <div *ngIf="editForm.get('thumbnailSha1')!.invalid && (editForm.get('thumbnailSha1')!.dirty || editForm.get('thumbnailSha1')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('thumbnailSha1')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 40 }">
+                        This field is required to be at least 40 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('thumbnailSha1')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 40 }">
+                        This field cannot be longer than 40 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('thumbnailSha1')?.errors?.pattern" jhiTranslate="entity.validation.pattern" [translateValues]="{ pattern: 'Thumbnail Sha 1' }">
+                            This field should follow pattern for "Thumbnail Sha 1".
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.ical" for="field_ical" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.ical' | translate">Ical</label>
+                    <div>
+                        <div *ngIf="editForm.get('ical')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('icalContentType')!.value, editForm.get('ical')!.value)" jhiTranslate="entity.action.open">open</a><br>
+                            <span class="pull-left">{{ editForm.get('icalContentType')!.value }}, {{ byteSize(editForm.get('ical')!.value) }}</span>
+                            <button type="button" (click)="editForm.patchValue({ical: null});editForm.patchValue({icalContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_ical" (change)="setFileData($event, 'ical', false)" jhiTranslate="entity.action.addblob"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="ical" id="field_ical"
+                           formControlName="ical"/>
+                    <input type="hidden" class="form-control" name="icalContentType" id="field_icalContentType"
+                           formControlName="icalContentType" />
+                    <div *ngIf="editForm.get('ical')!.invalid && (editForm.get('ical')!.dirty || editForm.get('ical')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('ical')?.errors?.maxbytes" jhiTranslate="entity.validation.maxbytes" [translateValues]="{ max: 1000000 }">
+                            This field cannot be more than 1000000.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.createdAt" for="field_createdAt" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.createdAt' | translate">Created At</label>
+                    <div class="d-flex">
+                        <input id="field_createdAt" type="datetime-local" class="form-control" name="createdAt" formControlName="createdAt" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('createdAt')!.invalid && (editForm.get('createdAt')!.dirty || editForm.get('createdAt')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('createdAt')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('createdAt')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.updatedAt" for="field_updatedAt" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.updatedAt' | translate">Updated At</label>
+                    <div class="d-flex">
+                        <input id="field_updatedAt" type="datetime-local" class="form-control" name="updatedAt" formControlName="updatedAt" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.createdBy" for="field_createdBy">Created By</label>
+                    <select class="form-control" id="field_createdBy" name="createdBy" formControlName="createdById">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.login }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="fullCalendarApp.calendarEvent.calendar" for="field_calendar">Calendar</label>
+                    <select class="form-control" id="field_calendar" name="calendar" formControlName="calendarId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="calendarOption.id" *ngFor="let calendarOption of calendars; trackBy: trackById">{{ calendarOption.title }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

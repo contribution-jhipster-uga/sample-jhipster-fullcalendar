@@ -1,0 +1,146 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="fullCalendarApp.calendarEvent.home.title">Calendar Events</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-calendar-event" [routerLink]="['/calendar-event/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span class="hidden-sm-down"  jhiTranslate="fullCalendarApp.calendarEvent.home.createLabel">
+            Create a new Calendar Event
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'fullCalendarApp.calendarEvent.home.search' | translate }}">
+
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="calendarEvents?.length === 0">
+        <span jhiTranslate="fullCalendarApp.calendarEvent.home.notFound">No calendarEvents found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="calendarEvents?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="uid"><span jhiTranslate="fullCalendarApp.calendarEvent.uid">Uid</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="title"><span jhiTranslate="fullCalendarApp.calendarEvent.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="subTitle"><span jhiTranslate="fullCalendarApp.calendarEvent.subTitle">Sub Title</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span jhiTranslate="fullCalendarApp.calendarEvent.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="longDescription"><span jhiTranslate="fullCalendarApp.calendarEvent.longDescription">Long Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="status"><span jhiTranslate="fullCalendarApp.calendarEvent.status">Status</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="priority"><span jhiTranslate="fullCalendarApp.calendarEvent.priority">Priority</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="place"><span jhiTranslate="fullCalendarApp.calendarEvent.place">Place</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="location"><span jhiTranslate="fullCalendarApp.calendarEvent.location">Location</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="cssTheme"><span jhiTranslate="fullCalendarApp.calendarEvent.cssTheme">Css Theme</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="url"><span jhiTranslate="fullCalendarApp.calendarEvent.url">Url</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="isPublic"><span jhiTranslate="fullCalendarApp.calendarEvent.isPublic">Is Public</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="startDate"><span jhiTranslate="fullCalendarApp.calendarEvent.startDate">Start Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="endDate"><span jhiTranslate="fullCalendarApp.calendarEvent.endDate">End Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="openingHours"><span jhiTranslate="fullCalendarApp.calendarEvent.openingHours">Opening Hours</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="image"><span jhiTranslate="fullCalendarApp.calendarEvent.image">Image</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="imageSha1"><span jhiTranslate="fullCalendarApp.calendarEvent.imageSha1">Image Sha 1</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="imageUrl"><span jhiTranslate="fullCalendarApp.calendarEvent.imageUrl">Image Url</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="thumbnail"><span jhiTranslate="fullCalendarApp.calendarEvent.thumbnail">Thumbnail</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="thumbnailSha1"><span jhiTranslate="fullCalendarApp.calendarEvent.thumbnailSha1">Thumbnail Sha 1</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="ical"><span jhiTranslate="fullCalendarApp.calendarEvent.ical">Ical</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdAt"><span jhiTranslate="fullCalendarApp.calendarEvent.createdAt">Created At</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="updatedAt"><span jhiTranslate="fullCalendarApp.calendarEvent.updatedAt">Updated At</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdByLogin"><span jhiTranslate="fullCalendarApp.calendarEvent.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="calendarTitle"><span jhiTranslate="fullCalendarApp.calendarEvent.calendar">Calendar</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <tr *ngFor="let calendarEvent of calendarEvents ;trackBy: trackId">
+                    <td><a [routerLink]="['/calendar-event', calendarEvent.id, 'view']">{{ calendarEvent.id }}</a></td>
+                    <td>{{ calendarEvent.uid }}</td>
+                    <td>{{ calendarEvent.title }}</td>
+                    <td>{{ calendarEvent.subTitle }}</td>
+                    <td>{{ calendarEvent.description }}</td>
+                    <td>{{ calendarEvent.longDescription }}</td>
+                    <td jhiTranslate="{{ 'fullCalendarApp.TypeCalendarEventStatus.' + calendarEvent.status }}">{{ calendarEvent.status }}</td>
+                    <td>{{ calendarEvent.priority }}</td>
+                    <td>{{ calendarEvent.place }}</td>
+                    <td>{{ calendarEvent.location }}</td>
+                    <td>{{ calendarEvent.cssTheme }}</td>
+                    <td>{{ calendarEvent.url }}</td>
+                    <td>{{ calendarEvent.isPublic }}</td>
+                    <td>{{ calendarEvent.startDate | date:'medium' }}</td>
+                    <td>{{ calendarEvent.endDate | date:'medium' }}</td>
+                    <td>{{ calendarEvent.openingHours }}</td>
+                    <td>
+                        <a *ngIf="calendarEvent.image" (click)="openFile(calendarEvent.imageContentType, calendarEvent.image)">
+                            <img [src]="'data:' + calendarEvent.imageContentType + ';base64,' + calendarEvent.image" style="max-height: 30px;" alt="calendarEvent image"/>
+                        </a>
+                        <span *ngIf="calendarEvent.image">{{ calendarEvent.imageContentType }}, {{ byteSize(calendarEvent.image) }}</span>
+                    </td>
+                    <td>{{ calendarEvent.imageSha1 }}</td>
+                    <td>{{ calendarEvent.imageUrl }}</td>
+                    <td>
+                        <a *ngIf="calendarEvent.thumbnail" (click)="openFile(calendarEvent.thumbnailContentType, calendarEvent.thumbnail)">
+                            <img [src]="'data:' + calendarEvent.thumbnailContentType + ';base64,' + calendarEvent.thumbnail" style="max-height: 30px;" alt="calendarEvent image"/>
+                        </a>
+                        <span *ngIf="calendarEvent.thumbnail">{{ calendarEvent.thumbnailContentType }}, {{ byteSize(calendarEvent.thumbnail) }}</span>
+                    </td>
+                    <td>{{ calendarEvent.thumbnailSha1 }}</td>
+                    <td>
+                        <a *ngIf="calendarEvent.ical" (click)="openFile(calendarEvent.icalContentType, calendarEvent.ical)" jhiTranslate="entity.action.open">open</a>
+                        <span *ngIf="calendarEvent.ical">{{ calendarEvent.icalContentType }}, {{ byteSize(calendarEvent.ical) }}</span>
+                    </td>
+                    <td>{{ calendarEvent.createdAt | date:'medium' }}</td>
+                    <td>{{ calendarEvent.updatedAt | date:'medium' }}</td>
+                    <td>
+                        {{ calendarEvent.createdByLogin }}
+                    </td>
+                    <td>
+                        <div *ngIf="calendarEvent.calendarId">
+                            <a [routerLink]="['/calendar', calendarEvent.calendarId , 'view']" >{{ calendarEvent.calendarTitle }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/calendar-event', calendarEvent.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/calendar-event', calendarEvent.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(calendarEvent)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

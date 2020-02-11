@@ -1,0 +1,141 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="calendarEvent">
+            <h2><span jhiTranslate="fullCalendarApp.calendarEvent.detail.title">Calendar Event</span> {{ calendarEvent.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.uid" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.uid' | translate">Uid</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.uid }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.title" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.title' | translate">Title</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.title }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.subTitle" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.subTitle' | translate">Sub Title</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.subTitle }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.description" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.description' | translate">Description</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.longDescription" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.longDescription' | translate">Long Description</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.longDescription }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.status" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.status' | translate">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'fullCalendarApp.TypeCalendarEventStatus.' + calendarEvent.status }}">{{ calendarEvent.status }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.priority" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.priority' | translate">Priority</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.priority }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.place" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.place' | translate">Place</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.place }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.location" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.location' | translate">Location</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.location }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.cssTheme" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.cssTheme' | translate">Css Theme</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.cssTheme }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.url" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.url' | translate">Url</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.url }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.isPublic" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.isPublic' | translate">Is Public</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.isPublic }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.startDate" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.startDate' | translate">Start Date</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.startDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.endDate" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.endDate' | translate">End Date</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.endDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.openingHours" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.openingHours' | translate">Opening Hours</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.openingHours }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.image" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.image' | translate">Image</span></dt>
+                <dd>
+                    <div *ngIf="calendarEvent.image">
+                        <a (click)="openFile(calendarEvent.imageContentType!, calendarEvent.image)">
+                            <img [src]="'data:' + calendarEvent.imageContentType + ';base64,' + calendarEvent.image" style="max-width: 100%;" alt="calendarEvent image"/>
+                        </a>
+                        {{ calendarEvent.imageContentType }}, {{ byteSize(calendarEvent.image) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.imageSha1">Image Sha 1</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.imageSha1 }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.imageUrl">Image Url</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.imageUrl }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.thumbnail" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.thumbnail' | translate">Thumbnail</span></dt>
+                <dd>
+                    <div *ngIf="calendarEvent.thumbnail">
+                        <a (click)="openFile(calendarEvent.thumbnailContentType!, calendarEvent.thumbnail)">
+                            <img [src]="'data:' + calendarEvent.thumbnailContentType + ';base64,' + calendarEvent.thumbnail" style="max-width: 100%;" alt="calendarEvent image"/>
+                        </a>
+                        {{ calendarEvent.thumbnailContentType }}, {{ byteSize(calendarEvent.thumbnail) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.thumbnailSha1">Thumbnail Sha 1</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.thumbnailSha1 }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.ical" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.ical' | translate">Ical</span></dt>
+                <dd>
+                    <div *ngIf="calendarEvent.ical">
+                        <a (click)="openFile(calendarEvent.icalContentType!, calendarEvent.ical)" jhiTranslate="entity.action.open">open</a>
+                        {{ calendarEvent.icalContentType }}, {{ byteSize(calendarEvent.ical) }}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.createdAt" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.createdAt' | translate">Created At</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.createdAt }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.updatedAt" [ngbTooltip]="'fullCalendarApp.calendarEvent.help.updatedAt' | translate">Updated At</span></dt>
+                <dd>
+                    <span>{{ calendarEvent.updatedAt }}</span>
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.createdBy">Created By</span></dt>
+                <dd>
+                    {{ calendarEvent.createdByLogin }}
+                </dd>
+                <dt><span jhiTranslate="fullCalendarApp.calendarEvent.calendar">Calendar</span></dt>
+                <dd>
+                    <div *ngIf="calendarEvent.calendarId">
+                        <a [routerLink]="['/calendar', calendarEvent.calendarId, 'view']">{{ calendarEvent.calendarTitle }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/calendar-event', calendarEvent.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

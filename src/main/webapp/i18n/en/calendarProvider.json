@@ -1,0 +1,39 @@
+{
+  "fullCalendarApp": {
+    "calendarProvider": {
+      "home": {
+        "title": "Calendar Providers",
+        "createLabel": "Create a new Calendar Provider",
+        "createOrEditLabel": "Create or edit a Calendar Provider",
+        "search": "Search for Calendar Provider",
+        "notFound": "No Calendar Providers found"
+      },
+      "created": "A new Calendar Provider is created with identifier {{ param }}",
+      "updated": "A Calendar Provider is updated with identifier {{ param }}",
+      "deleted": "A Calendar Provider is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Calendar Provider {{ id }}?"
+      },
+      "detail": {
+        "title": "Calendar Provider"
+      },
+      "provider": "Provider",
+      "identifier": "Identifier",
+      "credential": "Credential",
+      "credentialExtra1": "Credential Extra 1",
+      "credentialExtra2": "Credential Extra 2",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "ownedBy": "Owned By",
+      "help": {
+        "provider": "Provider of the calendar",
+        "identifier": "User identifier of the calendar provider",
+        "credential": "Provider of the calendar provider",
+        "credentialExtra1": "Credential Extra 1 of the calendar provider",
+        "credentialExtra2": "Credential Extra 2 of the calendar provider",
+        "createdAt": "Creation date of the calendar provider",
+        "updatedAt": "Update date of the calendar provider"
+      }
+    }
+  }
+}
