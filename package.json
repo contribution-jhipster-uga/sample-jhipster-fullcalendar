@@ -18,6 +18,9 @@
     "@fortawesome/angular-fontawesome": "0.5.0",
     "@fortawesome/fontawesome-svg-core": "1.2.26",
     "@fortawesome/free-solid-svg-icons": "5.12.0",
+    "@fullcalendar/angular": "^4.4.0",
+    "@fullcalendar/core": "^4.4.0",
+    "@fullcalendar/daygrid": "^4.4.0",
     "@ng-bootstrap/ng-bootstrap": "5.1.4",
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
@@ -29,10 +32,10 @@
     "ngx-infinite-scroll": "8.0.1",
     "ngx-webstorage": "4.0.1",
     "rxjs": "6.5.3",
-    "swagger-ui-dist": "3.24.3",
     "sockjs-client": "1.4.0",
-    "webstomp-client": "1.2.6",
+    "swagger-ui-dist": "3.24.3",
     "tslib": "1.10.0",
+    "webstomp-client": "1.2.6",
     "zone.js": "0.10.2"
   },
   "devDependencies": {
