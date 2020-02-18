@@ -100,7 +100,7 @@ entity CalendarEvent {
   */
   image ImageBlob maxbytes(IMAGE_MAX_BYTES),
   imageSha1 String minlength(SHA_LEN) maxlength(SHA_LEN) pattern(/[a-f0-9]{40}/),
-  imageUrl String minlength(URL_MAX_LEN),
+  imageUrl String maxlength(URL_MAX_LEN),
 
   /**
   * Thumbnail of the event image
