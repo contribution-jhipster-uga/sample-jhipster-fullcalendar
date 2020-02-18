@@ -127,7 +127,7 @@ public class CalendarEventDTO implements Serializable {
     @Pattern(regexp = "[a-f0-9]{40}")
     private String imageSha1;
 
-    @Size(min = 200)
+    @Size(max = 200)
     private String imageUrl;
 
     /**

@@ -145,8 +145,8 @@ public class CalendarEvent implements Serializable {
     @Column(name = "image_sha_1", length = 40)
     private String imageSha1;
 
-    @Size(min = 200)
-    @Column(name = "image_url")
+    @Size(max = 200)
+    @Column(name = "image_url", length = 200)
     private String imageUrl;
 
     /**
