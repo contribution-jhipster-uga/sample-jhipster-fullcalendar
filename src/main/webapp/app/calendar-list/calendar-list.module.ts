@@ -9,4 +9,6 @@ import { CalendarListComponent } from './calendar-list.component';
   imports: [FullCalendarSharedModule, RouterModule.forChild([CALENDARLIST_ROUTE])],
   declarations: [CalendarListComponent]
 })
-export class CalendarListModule {}
+export class CalendarListModule {
+  
+}
