@@ -54,7 +54,7 @@ export class CalendarEventUpdateComponent implements OnInit {
     image: [null, []],
     imageContentType: [],
     imageSha1: [null, [Validators.minLength(40), Validators.maxLength(40), Validators.pattern('[a-f0-9]{40}')]],
-    imageUrl: [null, [Validators.minLength(200)]],
+    imageUrl: [null, [Validators.maxLength(200)]],
     thumbnail: [null, []],
     thumbnailContentType: [],
     thumbnailSha1: [null, [Validators.minLength(40), Validators.maxLength(40), Validators.pattern('[a-f0-9]{40}')]],

@@ -122,9 +122,9 @@
             "fieldName": "imageUrl",
             "fieldType": "String",
             "fieldValidateRules": [
-                "minlength"
+                "maxlength"
             ],
-            "fieldValidateRulesMinlength": "200"
+            "fieldValidateRulesMaxlength": "200"
         },
         {
             "fieldName": "thumbnail",
