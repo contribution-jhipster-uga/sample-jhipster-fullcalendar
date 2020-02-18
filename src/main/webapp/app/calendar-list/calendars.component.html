@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-header"> Calendars </div>
+      <ul class="list-group list-group-flush" *ngFor="let calendar of calendarList;">
+        <li class="list-group-item">
+          <input type="checkbox" name="" id="">
+          {{calendar.title}}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-9">
+    <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins"></full-calendar>
+  </div>
+</div>

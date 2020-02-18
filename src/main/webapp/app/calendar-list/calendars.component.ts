@@ -4,16 +4,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
+import dayGridPlugin from '@fullcalendar/daygrid';
+
 import { CalendarService } from 'app/entities/calendar/calendar.service';
 import { ICalendar } from 'app/shared/model/calendar.model';
 
 @Component({
-  selector: 'jhi-calendar-list',
-  templateUrl: './calendar-list.component.html'
+  selector: 'jhi-calendars',
+  templateUrl: './calendars.component.html'
 })
-export class CalendarListComponent implements OnInit, OnDestroy {
+export class CalendarsComponent implements OnInit, OnDestroy {
   calendarList?: ICalendar[];
   eventSubscriber?: Subscription;
+  calendarPlugins = [dayGridPlugin];
 
   constructor(
     protected calendarService: CalendarService,
@@ -43,7 +46,7 @@ export class CalendarListComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInCalendars(): void {
-    this.eventSubscriber = this.eventManager.subscribe('calendarListModification', () => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('calendarsModification', () => this.loadAll());
   }
 
   protected onSuccess(data: ICalendar[] | null): void {
@@ -51,10 +54,6 @@ export class CalendarListComponent implements OnInit, OnDestroy {
   }
 
   protected onError(): void {
-  }
-
-  logList(): void{
-    // console.log(this.calendarList);
   }
 }
 

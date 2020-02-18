@@ -7,7 +7,7 @@ import { FullCalendarCoreModule } from 'app/core/core.module';
 import { FullCalendarAppRoutingModule } from './app-routing.module';
 import { FullCalendarHomeModule } from './home/home.module';
 import { FullCalendarEntityModule } from './entities/entity.module';
-import { CalendarListModule } from './calendar-list/calendar-list.module';
+import { CalendarsModule } from './calendar-list/calendars.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
@@ -22,7 +22,7 @@ import { ErrorComponent } from './layouts/error/error.component';
     FullCalendarSharedModule,
     FullCalendarCoreModule,
     FullCalendarHomeModule,
-    CalendarListModule,
+    CalendarsModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     FullCalendarEntityModule,
     FullCalendarAppRoutingModule
