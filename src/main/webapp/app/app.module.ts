@@ -7,7 +7,7 @@ import { FullCalendarCoreModule } from 'app/core/core.module';
 import { FullCalendarAppRoutingModule } from './app-routing.module';
 import { FullCalendarHomeModule } from './home/home.module';
 import { FullCalendarEntityModule } from './entities/entity.module';
-import { CalendarsModule } from './calendar-list/calendars.module';
+import { CalendarsModule } from './calendars/calendars.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
