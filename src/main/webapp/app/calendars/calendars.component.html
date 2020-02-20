@@ -4,13 +4,15 @@
       <div class="card-header"> Calendars </div>
       <ul class="list-group list-group-flush" *ngFor="let calendar of calendarList;">
         <li class="list-group-item">
-          <input type="checkbox" name="" id="">
+          <input type="checkbox" name="" id=""
+            (change)="eventsToDisplay(calendar.id, $event)" checked>
           {{calendar.title}}
         </li>
       </ul>
     </div>
   </div>
   <div class="col-sm-9">
-    <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins"></full-calendar>
+    <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" [events]="displayedEvents">
+    </full-calendar>
   </div>
 </div>
