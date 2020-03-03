@@ -16,10 +16,10 @@ import { CalendarEventService } from 'app/entities/calendar-event/calendar-event
   templateUrl: './calendars.component.html'
 })
 export class CalendarsComponent implements OnInit, OnDestroy {
-  calendarList?: ICalendar[];
-  calendarEvents?: ICalendarEvent[];
-  displayedEvents?: {}[];
-  checkedCals?: { calid?: number, checked: boolean }[];
+  calendarList: ICalendar[];
+  calendarEvents: ICalendarEvent[];
+  displayedEvents: {}[];
+  checkedCals: { calid?: number, checked: boolean }[];
   eventSubscriber?: Subscription;
   calendarPlugins = [dayGridPlugin];
 
@@ -29,7 +29,12 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-  ) { }
+  ) {
+    this.displayedEvents = [];
+    this.checkedCals = [];
+    this.calendarEvents = [];
+    this.calendarList = [];
+  }
 
   loadAll(): void {
     this.calendarService
@@ -64,7 +69,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     this.calendarList = data || [];
     this.checkedCals = [];
     this.calendarList.forEach(c => {
-      this.checkedCals!.push({ calid: c.id, checked: true });
+      this.checkedCals.push({ calid: c.id, checked: true });
     });
   }
 
@@ -72,19 +77,29 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     this.calendarEvents = data || [];
     this.displayedEvents = [];
     this.calendarEvents.forEach(e => {
-      if (e.calendarId)
-        this.displayedEvents!.push({ title: e.title, start: e.startDate!.toISOString(), end: e.endDate!.toISOString() });
+      if (e.calendarId) this.displayedEvents.push(this.parseEvent(e));
     });
+  }
+
+  /** Convert an ICalendarEvent Object to a FullCalendar Event Object */
+  protected parseEvent(event: ICalendarEvent): {} {
+    const r = {};
+    if (event.uid) r["id"] = event.uid;
+    if (event.title) r["title"] = event.title;
+    if (event.startDate) r["start"] = event.startDate.toISOString();
+    if (event.endDate) r["end"] = event.endDate.toISOString(); else r["allDay"] = true;
+    if (event.url) r["url"] = event.url;
+    return r;
   }
 
   protected eventsToDisplay(cid: number, event: any): void {
     this.displayedEvents = [];
-    (this.checkedCals!.find(c => c.calid === cid))!.checked = event.target.checked;
-    this.checkedCals!.forEach(c => {
+    (this.checkedCals.find(c => c.calid === cid))!.checked = event.target.checked;
+    this.checkedCals.forEach(c => {
       if (c.checked) {
-        const e = this.calendarEvents!.filter(f => f.calendarId === c.calid);
+        const e = this.calendarEvents.filter(f => f.calendarId === c.calid);
         e.forEach(ev => {
-          this.displayedEvents!.push({ title: ev.title, start: ev.startDate!.toISOString(), end: ev.endDate!.toISOString() });
+          this.displayedEvents.push(this.parseEvent(ev));
         });
       }
     });
