@@ -6,6 +6,9 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 
+import { EventModalComponent } from './event-modal.component'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { CalendarService } from 'app/entities/calendar/calendar.service';
 import { ICalendar } from 'app/shared/model/calendar.model';
 import { ICalendarEvent } from 'app/shared/model/calendar-event.model';
@@ -29,6 +32,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
+    protected EventModalService: NgbModal
   ) {
     this.displayedEvents = [];
     this.checkedCals = [];
@@ -103,6 +107,12 @@ export class CalendarsComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  handleEventClick(info: any): void {
+    const modalRef = this.EventModalService.open(EventModalComponent);
+    // console.log(this.calendarEvents.find(e => e.uid === info.event._def.publicId));
+    modalRef.componentInstance.eventObject = this.calendarEvents.find(e => e.uid === info.event._def.publicId);
   }
 }
 

@@ -6,10 +6,12 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { CALENDARS_ROUTE } from './calendars.route';
 import { CalendarsComponent } from './calendars.component';
+import { EventModalComponent } from './event-modal.component'
 
 @NgModule({
   imports: [FullCalendarSharedModule, FullCalendarModule, RouterModule.forChild([CALENDARS_ROUTE])],
-  declarations: [CalendarsComponent]
+  declarations: [CalendarsComponent, EventModalComponent],
+  entryComponents: [EventModalComponent]
 })
 export class CalendarsModule {
   
