@@ -10,6 +10,8 @@ import { CalendarService } from 'app/entities/calendar/calendar.service';
 import { ICalendar } from 'app/shared/model/calendar.model';
 import { ICalendarEvent } from 'app/shared/model/calendar-event.model';
 import { CalendarEventService } from 'app/entities/calendar-event/calendar-event.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-calendars',
@@ -21,9 +23,13 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   displayedEvents: {}[];
   checkedCals: { calid?: number, checked: boolean }[];
   eventSubscriber?: Subscription;
+  calendarSubscriber?: Subscription;
   calendarPlugins = [dayGridPlugin];
+  account: Account | null = null;
+  authSubscription?: Subscription;
 
   constructor(
+    private accountService: AccountService,
     protected calendarService: CalendarService,
     protected calendarEventService: CalendarEventService,
     protected activatedRoute: ActivatedRoute,
@@ -47,22 +53,19 @@ export class CalendarsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadAll()
-    this.registerChangeInCalendars();
-    this.registerChangeInCalendarEvents();
+    this.calendarSubscriber = this.eventManager.subscribe('calendarsModification', () => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('calendarEventListModification', () => this.loadAll());
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
   }
 
   ngOnDestroy(): void {
-    if (this.eventSubscriber) {
-      this.eventManager.destroy(this.eventSubscriber);
-    }
+    if (this.calendarSubscriber) this.eventManager.destroy(this.calendarSubscriber);
+    if (this.eventSubscriber) this.eventManager.destroy(this.eventSubscriber);
+    if (this.authSubscription) this.authSubscription.unsubscribe();
   }
 
-  registerChangeInCalendars(): void {
-    this.eventSubscriber = this.eventManager.subscribe('calendarsModification', () => this.loadAll());
-  }
-
-  registerChangeInCalendarEvents(): void {
-    this.eventSubscriber = this.eventManager.subscribe('calendarEventListModification', () => this.loadAll());
+  isAuthenticated(): boolean {
+    return this.accountService.isAuthenticated();
   }
 
   protected onCalendarSuccess(data: ICalendar[] | null): void {
@@ -76,9 +79,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   protected onCalendarEventSuccess(data: ICalendarEvent[] | null): void {
     this.calendarEvents = data || [];
     this.displayedEvents = [];
-    this.calendarEvents.forEach(e => {
-      if (e.calendarId) this.displayedEvents.push(this.parseEvent(e));
-    });
+    this.calendarEvents.forEach(e => this.checkEvent(e));
   }
 
   /** Convert an ICalendarEvent Object to a FullCalendar Event Object */
@@ -92,17 +93,23 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     return r;
   }
 
+  protected checkEvent(e: ICalendarEvent): void {
+    if (this.account) {
+      if (e.calendarId && (e.isPublic || e.createdById === this.account.id))
+        this.displayedEvents.push(this.parseEvent(e));
+    } else {
+      if (e.calendarId && e.isPublic) this.displayedEvents.push(this.parseEvent(e));
+    }
+  }
+
   protected eventsToDisplay(cid: number, event: any): void {
     this.displayedEvents = [];
     (this.checkedCals.find(c => c.calid === cid))!.checked = event.target.checked;
     this.checkedCals.forEach(c => {
       if (c.checked) {
         const e = this.calendarEvents.filter(f => f.calendarId === c.calid);
-        e.forEach(ev => {
-          this.displayedEvents.push(this.parseEvent(ev));
-        });
+        e.forEach(ev => this.checkEvent(ev));
       }
     });
   }
 }
-
