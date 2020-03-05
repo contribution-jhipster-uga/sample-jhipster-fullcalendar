@@ -1,13 +1,26 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+  <h4 class="modal-title" id="modal-basic-title">{{eventObject.title}}</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <div class="modal-body">
-  Body
-  <button type="button" (click)="toto()"><span>Click me</span></button>
-</div>
-<div class="modal-footer">
-  Footer
+  <form>
+    <div class="text">
+      <p>
+        {{eventObject.description}}
+      </p>
+      <div *ngIf="eventObject.image">
+        <a (click)="openFile(eventObject.imageContentType!, eventObject.image)">
+          <img [src]="'data:' + eventObject.imageContentType + ';base64,' + eventObject.image"
+            style="max-width: 100%;" alt="eventObject image" />
+        </a>
+      </div>
+      <p>
+        From {{eventObject.startDate.format("MMMM D, YYYY - H:mm")}} to
+        {{eventObject.endDate.format("MMMM D, YYYY - H:mm")}}
+      </p>
+    </div>
+  </form>
 </div>
