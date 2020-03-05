@@ -3,8 +3,10 @@ import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
+// import allLocales from '@fullcalendar/core/locales-all';
 
 import { CalendarService } from 'app/entities/calendar/calendar.service';
 import { ICalendar } from 'app/shared/model/calendar.model';
@@ -27,9 +29,12 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   calendarPlugins = [dayGridPlugin];
   account: Account | null = null;
   authSubscription?: Subscription;
+  loc: string;
+  // alLoc: [];
 
   constructor(
     private accountService: AccountService,
+    private translateService: TranslateService,
     protected calendarService: CalendarService,
     protected calendarEventService: CalendarEventService,
     protected activatedRoute: ActivatedRoute,
@@ -40,6 +45,8 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     this.checkedCals = [];
     this.calendarEvents = [];
     this.calendarList = [];
+    this.loc = this.translateService.currentLang;
+    // this.alLoc = allLocales;
   }
 
   loadAll(): void {
@@ -56,6 +63,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     this.calendarSubscriber = this.eventManager.subscribe('calendarsModification', () => this.loadAll());
     this.eventSubscriber = this.eventManager.subscribe('calendarEventListModification', () => this.loadAll());
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => this.loc = event.lang)
   }
 
   ngOnDestroy(): void {
