@@ -11,7 +11,12 @@
     </div>
   </div>
   <div class="col-sm-9">
-    <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" [events]="displayedEvents" [locale]="loc">
+    <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" [events]="displayedEvents" [locale]="loc"
+      [header]="{
+      right: 'prev,next today',
+      center: 'title',
+      left: 'dayGridMonth,dayGridWeek,dayGridDay'
+      }">
     </full-calendar>
   </div>
 </div>

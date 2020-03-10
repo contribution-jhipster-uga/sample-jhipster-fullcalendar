@@ -6,7 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
-// import allLocales from '@fullcalendar/core/locales-all';
+import allLocales from '@fullcalendar/core/locales-all.js';
 
 import { CalendarService } from 'app/entities/calendar/calendar.service';
 import { ICalendar } from 'app/shared/model/calendar.model';
@@ -30,7 +30,6 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
   loc: string;
-  // alLoc: [];
 
   constructor(
     private accountService: AccountService,
@@ -46,7 +45,6 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     this.calendarEvents = [];
     this.calendarList = [];
     this.loc = this.translateService.currentLang;
-    // this.alLoc = allLocales;
   }
 
   loadAll(): void {
