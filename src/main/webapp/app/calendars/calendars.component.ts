@@ -15,6 +15,7 @@ import { ICalendarEvent } from 'app/shared/model/calendar-event.model';
 import { CalendarEventService } from 'app/entities/calendar-event/calendar-event.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
+import {IcalService} from './ical.service'
 
 @Component({
   selector: 'jhi-calendars',
@@ -30,11 +31,13 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   calendarPlugins = [dayGridPlugin];
   account: Account | null = null;
   authSubscription?: Subscription;
+  testIcal?: String;
 
   constructor(
     private accountService: AccountService,
     protected calendarService: CalendarService,
     protected calendarEventService: CalendarEventService,
+    protected icalService: IcalService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -115,7 +118,10 @@ export class CalendarsComponent implements OnInit, OnDestroy {
 
   handleEventClick(info: any): void {
     const modalRef = this.EventModalService.open(EventModalComponent);
-    // console.log(this.calendarEvents.find(e => e.uid === info.event._def.publicId));
     modalRef.componentInstance.eventObject = this.calendarEvents.find(e => e.uid === info.event._def.publicId);
+  }
+
+  ical(): void {
+    this.icalService.ical().subscribe(res => this.testIcal = res.body || undefined);
   }
 }

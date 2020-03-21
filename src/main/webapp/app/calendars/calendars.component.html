@@ -25,6 +25,9 @@
             </span>
           </button>
       </div>
+      <div>
+        <button class="btn btn-secondary" (click)="ical()"> ical </button>
+      </div>
   </div>
   <div class="col-sm-9">
     <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" (eventClick)="handleEventClick($event)"

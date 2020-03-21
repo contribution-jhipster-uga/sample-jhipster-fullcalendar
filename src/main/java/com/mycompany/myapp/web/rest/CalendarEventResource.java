@@ -27,10 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.util.MapTimeZoneCache;
-
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
