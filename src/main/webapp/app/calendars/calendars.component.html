@@ -9,29 +9,30 @@
         </li>
       </ul>
     </div>
-      <div class="my-4">
-          <button class="btn btn-block btn-primary jh-create-entity create-calendar" [routerLink]="['/calendar/new']">
-              <fa-icon icon="plus"></fa-icon>
-              <span class="hidden-sm-down"  jhiTranslate="fullCalendarApp.calendar.home.createLabel">
-            Create a new Calendar
-          </span>
-          </button>
-      </div>
-      <div>
-          <button class="btn btn-block btn-primary jh-create-entity create-calendar-event" [routerLink]="['/calendar-event/new']">
-              <fa-icon icon="plus"></fa-icon>
-              <span class="hidden-sm-down"  jhiTranslate="fullCalendarApp.calendarEvent.home.createLabel">
-            Create a new Calendar Event
-            </span>
-          </button>
-      </div>
+    <div class="my-4">
+      <button class="btn btn-block btn-primary jh-create-entity create-calendar" [routerLink]="['/calendar/new']">
+        <fa-icon icon="plus"></fa-icon>
+        <span class="hidden-sm-down" jhiTranslate="fullCalendarApp.calendar.home.createLabel">
+          Create a new Calendar
+        </span>
+      </button>
+    </div>
+    <div>
+      <button class="btn btn-block btn-primary jh-create-entity create-calendar-event"
+        [routerLink]="['/calendar-event/new']">
+        <fa-icon icon="plus"></fa-icon>
+        <span class="hidden-sm-down" jhiTranslate="fullCalendarApp.calendarEvent.home.createLabel">
+          Create a new Calendar Event
+        </span>
+      </button>
+    </div>
   </div>
   <div class="col-sm-9">
     <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" (eventClick)="handleEventClick($event)"
       [events]="displayedEvents" [header]="{
       right: 'prev,next today',
       center: 'title',
-      left: 'dayGridMonth,dayGridWeek,dayGridDay'
+      left: 'dayGridMonth timeGridWeek timeGridDay'
     }"></full-calendar>
   </div>
 </div>
