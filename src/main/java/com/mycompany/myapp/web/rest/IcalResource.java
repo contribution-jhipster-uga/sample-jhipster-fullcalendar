@@ -47,7 +47,7 @@ public class IcalResource {
         ical.getProperties().add(CalScale.GREGORIAN);
 
         for (CalendarEventDTO e : allEvents) {
-            VEvent ev = new VEvent(new Date(DateTime.from(e.getStartDate())), new Date(DateTime.from(e.getEndDate())), e.getTitle());
+            VEvent ev = new VEvent(new DateTime(DateTime.from(e.getStartDate())), new DateTime(DateTime.from(e.getEndDate())), e.getTitle());
             ev.getProperties().add(new Uid (e.getUid().toString()));
             ical.getComponents().add(ev);
         }
