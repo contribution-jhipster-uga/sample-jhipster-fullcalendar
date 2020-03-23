@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 import { EventModalComponent } from './event-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,7 +29,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   checkedCals: { calid?: number; checked: boolean }[];
   eventSubscriber?: Subscription;
   calendarSubscriber?: Subscription;
-  calendarPlugins = [dayGridPlugin];
+  calendarPlugins = [dayGridPlugin, timeGridPlugin];
   account: Account | null = null;
   authSubscription?: Subscription;
   testIcal?: String;
@@ -121,7 +122,11 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.eventObject = this.calendarEvents.find(e => e.uid === info.event._def.publicId);
   }
 
-  ical(): void {
-    this.icalService.ical().subscribe(res => this.testIcal = res.body || undefined);
+  exportIcal(): void {
+    this.icalService.exportIcal().subscribe(res => this.testIcal = res.body || undefined);
+  }
+
+  importIcal(): void {
+    this.icalService.importIcal().subscribe(res => this.testIcal = res.body || undefined);
   }
 }

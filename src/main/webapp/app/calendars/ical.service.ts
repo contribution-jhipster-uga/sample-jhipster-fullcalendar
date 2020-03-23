@@ -11,7 +11,11 @@ export class IcalService {
 
   constructor(protected http: HttpClient) { }
 
-  ical(): Observable<HttpResponse<String>> {
+  exportIcal(): Observable<HttpResponse<String>> {
     return this.http.get<String>(`${this.resourceUrl}/ical`, { observe: 'response' })
+  }
+
+  importIcal(): Observable<HttpResponse<String>> {
+    return this.http.post<String>(`${this.resourceUrl}/ical`, null, { observe: 'response' })
   }
 }
