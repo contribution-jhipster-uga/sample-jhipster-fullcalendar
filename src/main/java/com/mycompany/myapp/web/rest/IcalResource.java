@@ -11,6 +11,8 @@ import java.util.UUID;
 import com.mycompany.myapp.service.CalendarEventQueryService;
 import com.mycompany.myapp.service.CalendarEventService;
 import com.mycompany.myapp.service.dto.CalendarEventDTO;
+import com.mycompany.myapp.service.CalendarService;
+import com.mycompany.myapp.service.dto.CalendarDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,11 +42,13 @@ public class IcalResource {
     private final Logger log = LoggerFactory.getLogger(IcalResource.class);
     private final CalendarEventQueryService calendarEventQueryService;
     private final CalendarEventService calendarEventService;
+    private final CalendarService calendarService;
 
-    public IcalResource(CalendarEventQueryService calendarEventQueryService,
-            CalendarEventService calendarEventService) {
+    public IcalResource(CalendarEventQueryService calendarEventQueryService, CalendarEventService calendarEventService,
+            CalendarService calendarService) {
         this.calendarEventQueryService = calendarEventQueryService;
         this.calendarEventService = calendarEventService;
+        this.calendarService = calendarService;
     }
 
     /**
@@ -87,6 +91,16 @@ public class IcalResource {
         CalendarBuilder builder = new CalendarBuilder();
         Calendar cal = builder.build(fin);
 
+        Instant now = Instant.now();
+
+        CalendarDTO c = new CalendarDTO();
+        String cTitle = cal.getProductId().toString();
+        c.setTitle(cTitle.substring(cTitle.indexOf("//") + 2));
+        c.setCreatedAt(now);
+        c.setOwnedById((long) 3);
+        c.setUid(UUID.randomUUID());
+        long cId = calendarService.save(c).getId();
+
         for (CalendarComponent ev : cal.getComponents()) {
             CalendarEventDTO e = new CalendarEventDTO();
             e.setTitle(ev.getProperty("SUMMARY").getValue());
@@ -96,12 +110,12 @@ public class IcalResource {
                     .insert(7, "-").insert(13, ":").insert(16, ":").toString()));
             e.setUid(UUID.randomUUID());
             e.setIsPublic(true);
-            e.setCreatedAt(Instant.now());
-            e.setUpdatedAt(Instant.now());
+            e.setCreatedAt(now);
+            e.setUpdatedAt(now);
             e.setCreatedById((long) 3);
-            e.setCalendarId((long) 1);
+            e.setCalendarId(cId);
             calendarEventService.save(e);
         }
-        return ResponseEntity.ok().body("Import iCal OK");
+        return ResponseEntity.ok().body("\"Import iCal OK\"");
     }
 }

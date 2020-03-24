@@ -16,7 +16,7 @@ import { ICalendarEvent } from 'app/shared/model/calendar-event.model';
 import { CalendarEventService } from 'app/entities/calendar-event/calendar-event.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
-import {IcalService} from './ical.service'
+import { IcalService } from './ical.service'
 
 @Component({
   selector: 'jhi-calendars',
@@ -27,11 +27,13 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   calendarEvents: ICalendarEvent[];
   displayedEvents: {}[];
   checkedCals: { calid?: number; checked: boolean }[];
-  eventSubscriber?: Subscription;
-  calendarSubscriber?: Subscription;
   calendarPlugins = [dayGridPlugin, timeGridPlugin];
   account: Account | null = null;
   authSubscription?: Subscription;
+  eventSubscriber?: Subscription;
+  calendarSubscriber?: Subscription;
+  exportIcalSubscriber?: Subscription;
+  importIcalSubscriber?: Subscription;
   testIcal?: String;
 
   constructor(
@@ -52,7 +54,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
 
   loadAll(): void {
     this.calendarService.query().subscribe((res: HttpResponse<ICalendar[]>) => this.onCalendarSuccess(res.body));
-    this.calendarEventService.query().subscribe((res: HttpResponse<ICalendarEvent[]>) => this.onCalendarEventSuccess(res.body));
+    this.calendarEventService.query({ size: 300 }).subscribe((res: HttpResponse<ICalendarEvent[]>) => this.onCalendarEventSuccess(res.body));
   }
 
   ngOnInit(): void {
@@ -66,6 +68,8 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     if (this.calendarSubscriber) this.eventManager.destroy(this.calendarSubscriber);
     if (this.eventSubscriber) this.eventManager.destroy(this.eventSubscriber);
     if (this.authSubscription) this.authSubscription.unsubscribe();
+    if (this.exportIcalSubscriber) this.exportIcalSubscriber.unsubscribe();
+    if (this.importIcalSubscriber) this.importIcalSubscriber.unsubscribe();
   }
 
   isAuthenticated(): boolean {
@@ -123,10 +127,15 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   }
 
   exportIcal(): void {
-    this.icalService.exportIcal().subscribe(res => this.testIcal = res.body || undefined);
+    this.exportIcalSubscriber = this.icalService.exportIcal().subscribe(res => this.testIcal = res.body || undefined);
   }
 
   importIcal(): void {
-    this.icalService.importIcal().subscribe(res => this.testIcal = res.body || undefined);
+    this.importIcalSubscriber = this.icalService.importIcal().subscribe(res => {
+      this.testIcal = res.body || undefined;
+      this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/calendars']);
+      });
+    });
   }
 }
