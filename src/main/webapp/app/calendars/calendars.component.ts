@@ -6,7 +6,9 @@ import { JhiEventManager } from 'ng-jhipster';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
-import allLocales from '@fullcalendar/core/locales-all.js';
+// Find a way to import this file in order to solve the calendar headers 
+// (today, day, week and month buttons) not changing language bug
+// import allLocales from '@fullcalendar/core/locales-all.js';
 
 import { CalendarService } from 'app/entities/calendar/calendar.service';
 import { ICalendar } from 'app/shared/model/calendar.model';
