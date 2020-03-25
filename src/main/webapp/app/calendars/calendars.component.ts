@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 import { EventModalComponent } from './event-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +28,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   checkedCals: { calid?: number; checked: boolean }[];
   eventSubscriber?: Subscription;
   calendarSubscriber?: Subscription;
-  calendarPlugins = [dayGridPlugin];
+  calendarPlugins = [dayGridPlugin, timeGridPlugin];
   account: Account | null = null;
   authSubscription?: Subscription;
 
