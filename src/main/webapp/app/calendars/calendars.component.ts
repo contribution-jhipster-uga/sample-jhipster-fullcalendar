@@ -3,9 +3,13 @@ import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+// Find a way to import this file in order to solve the calendar headers 
+// (today, day, week and month buttons) not changing language bug
+// import allLocales from '@fullcalendar/core/locales-all.js';
 
 import { EventModalComponent } from './event-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -31,9 +35,11 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   calendarPlugins = [dayGridPlugin, timeGridPlugin];
   account: Account | null = null;
   authSubscription?: Subscription;
+  loc: string;
 
   constructor(
     private accountService: AccountService,
+    private translateService: TranslateService,
     protected calendarService: CalendarService,
     protected calendarEventService: CalendarEventService,
     protected activatedRoute: ActivatedRoute,
@@ -45,6 +51,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     this.checkedCals = [];
     this.calendarEvents = [];
     this.calendarList = [];
+    this.loc = this.translateService.currentLang;
   }
 
   loadAll(): void {
@@ -57,6 +64,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     this.calendarSubscriber = this.eventManager.subscribe('calendarsModification', () => this.loadAll());
     this.eventSubscriber = this.eventManager.subscribe('calendarEventListModification', () => this.loadAll());
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => this.loc = event.lang)
   }
 
   ngOnDestroy(): void {

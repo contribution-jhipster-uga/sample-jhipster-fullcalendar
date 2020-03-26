@@ -29,7 +29,7 @@
   </div>
   <div class="col-sm-9">
     <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" (eventClick)="handleEventClick($event)"
-      [events]="displayedEvents" [header]="{
+      [events]="displayedEvents" [locale]="loc" [header]="{
       right: 'prev,next today',
       center: 'title',
       left: 'dayGridMonth timeGridWeek timeGridDay'
