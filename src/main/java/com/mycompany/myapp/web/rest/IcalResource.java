@@ -71,7 +71,7 @@ public class IcalResource {
             ical.getComponents().add(ev);
         }
 
-        FileOutputStream fout = new FileOutputStream("ical4j_test.ics");
+        FileOutputStream fout = new FileOutputStream("agenda_export.ics");
         CalendarOutputter outputter = new CalendarOutputter();
         outputter.output(ical, fout);
 
@@ -87,7 +87,7 @@ public class IcalResource {
     public ResponseEntity<String> importIcal() throws ParseException, IOException, ParserException {
         log.debug("REST request to import calendar events from an ics file");
 
-        FileInputStream fin = new FileInputStream("calINFO4.ics");
+        FileInputStream fin = new FileInputStream("ADECal.ics");
         CalendarBuilder builder = new CalendarBuilder();
         Calendar cal = builder.build(fin);
 

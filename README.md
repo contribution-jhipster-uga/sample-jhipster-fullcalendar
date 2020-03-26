@@ -35,7 +35,7 @@ To try out the features navigate to `/calendars` page and click on the `ical` bu
 
 ## Export
 
-To export your agenda click on `Export Agenda`. A new file named `ical4j_test.ics` will appear on the root directory of the project. All the events in the database will be put in the file.
+To export your agenda click on `Export Agenda`. A new file named `agenda_export.ics` will appear on the root directory of the project. All the events in the database will be put in the file.
 
 ### To Do
 
@@ -47,7 +47,7 @@ To export your agenda click on `Export Agenda`. A new file named `ical4j_test.ic
 
 ## Import
 
-To export your agenda click on `Import Agenda`. An ics file named `calINFO4.ics` must be present in the root folder for the import to work. A new calendar will be created in which the new events will be stored.
+To export your agenda click on `Import Agenda`. An ics file named `ADECal.ics` must be present in the root folder for the import to work. A new calendar will be created in which the new events will be stored.
 
 ### To Do
 
