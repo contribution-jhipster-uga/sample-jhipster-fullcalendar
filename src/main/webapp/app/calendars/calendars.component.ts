@@ -18,6 +18,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
 import { IcalService } from './ical.service'
 
+import * as fileSaver from 'file-saver';
+
 @Component({
   selector: 'jhi-calendars',
   templateUrl: './calendars.component.html'
@@ -34,7 +36,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   calendarSubscriber?: Subscription;
   exportIcalSubscriber?: Subscription;
   importIcalSubscriber?: Subscription;
-  testIcal?: String;
+  testIcal?: string;
 
   constructor(
     private accountService: AccountService,
@@ -127,7 +129,10 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   }
 
   exportIcal(): void {
-    this.exportIcalSubscriber = this.icalService.exportIcal().subscribe(res => this.testIcal = res.body || undefined);
+    this.exportIcalSubscriber = this.icalService.exportIcal().subscribe(res => {
+      const blob = new Blob([res], {type: "text/plain;charset=utf-8"});
+      fileSaver.saveAs(blob, "agenda.ics");
+    });
   }
 
   importIcal(): void {

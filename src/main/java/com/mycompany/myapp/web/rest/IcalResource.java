@@ -1,5 +1,6 @@
 package com.mycompany.myapp.web.rest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -71,11 +72,7 @@ public class IcalResource {
             ical.getComponents().add(ev);
         }
 
-        FileOutputStream fout = new FileOutputStream("agenda_export.ics");
-        CalendarOutputter outputter = new CalendarOutputter();
-        outputter.output(ical, fout);
-
-        return ResponseEntity.ok().body("Export iCal OK");
+        return ResponseEntity.ok().body(ical.toString());
     }
 
     /**
