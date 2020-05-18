@@ -1,8 +1,5 @@
 package com.mycompany.myapp.web.rest;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.Instant;
@@ -11,9 +8,9 @@ import java.util.UUID;
 
 import com.mycompany.myapp.service.CalendarEventQueryService;
 import com.mycompany.myapp.service.CalendarEventService;
-import com.mycompany.myapp.service.dto.CalendarEventDTO;
 import com.mycompany.myapp.service.CalendarService;
 import com.mycompany.myapp.service.dto.CalendarDTO;
+import com.mycompany.myapp.service.dto.CalendarEventDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.DateTime;
@@ -81,12 +79,11 @@ public class IcalResource {
      * @throws ParserException
      */
     @PostMapping("/calendar-events/ical")
-    public ResponseEntity<String> importIcal() throws ParseException, IOException, ParserException {
-        log.debug("REST request to import calendar events from an ics file");
-
-        FileInputStream fin = new FileInputStream("ADECal.ics");
+    public ResponseEntity<String> importIcal(@RequestParam(value = "icsFile") MultipartFile file) throws ParseException, IOException, ParserException {
+        log.debug("REST request to import calendar events from file" + file.getName());
+        
         CalendarBuilder builder = new CalendarBuilder();
-        Calendar cal = builder.build(fin);
+        Calendar cal = builder.build(file.getInputStream());
 
         Instant now = Instant.now();
 
@@ -113,6 +110,7 @@ public class IcalResource {
             e.setCalendarId(cId);
             calendarEventService.save(e);
         }
+        
         return ResponseEntity.ok().body("\"Import iCal OK\"");
     }
 }

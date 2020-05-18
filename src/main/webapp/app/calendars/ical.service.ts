@@ -15,7 +15,7 @@ export class IcalService {
     return this.http.get(`${this.resourceUrl}/ical`, { observe: 'body', responseType: "text" })
   }
 
-  importIcal(): Observable<HttpResponse<string>> {
-    return this.http.post<string>(`${this.resourceUrl}/ical`, null, { observe: 'response' })
+  importIcal(uploadData: FormData): Observable<HttpResponse<Object>> {
+    return this.http.post(`${this.resourceUrl}/ical`, uploadData, { observe: 'response' });
   }
 }

@@ -36,7 +36,6 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   calendarSubscriber?: Subscription;
   exportIcalSubscriber?: Subscription;
   importIcalSubscriber?: Subscription;
-  testIcal?: string;
 
   constructor(
     private accountService: AccountService,
@@ -130,17 +129,21 @@ export class CalendarsComponent implements OnInit, OnDestroy {
 
   exportIcal(): void {
     this.exportIcalSubscriber = this.icalService.exportIcal().subscribe(res => {
-      const blob = new Blob([res], {type: "text/plain;charset=utf-8"});
+      const blob = new Blob([res], { type: "text/plain;charset=utf-8" });
       fileSaver.saveAs(blob, "agenda.ics");
     });
   }
 
-  importIcal(): void {
-    this.importIcalSubscriber = this.icalService.importIcal().subscribe(res => {
-      this.testIcal = res.body || undefined;
-      this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
-        this.router.navigate(['/calendars']);
+  onFileInput(event: any): void {
+    const selectedFile = event.target.files[0];
+    const uploadData = new FormData();
+    if (selectedFile) {
+      uploadData.append("icsFile", selectedFile, selectedFile.name);
+      this.importIcalSubscriber = this.icalService.importIcal(uploadData).subscribe(() => {
+        this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/calendars']);
+        });
       });
-    });
+    }
   }
 }
