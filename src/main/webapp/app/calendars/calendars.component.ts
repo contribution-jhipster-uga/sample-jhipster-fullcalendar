@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
+import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 
@@ -20,11 +21,14 @@ import { IcalService } from './ical.service'
 
 import * as fileSaver from 'file-saver';
 
+
 @Component({
   selector: 'jhi-calendars',
   templateUrl: './calendars.component.html'
 })
 export class CalendarsComponent implements OnInit, OnDestroy {
+  @ViewChild('calendar', { static: false }) calendarComponent!: FullCalendarComponent;
+
   calendarList: ICalendar[];
   calendarEvents: ICalendarEvent[];
   displayedEvents: {}[];
@@ -128,7 +132,9 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   }
 
   exportIcal(): void {
-    this.exportIcalSubscriber = this.icalService.exportIcal().subscribe(res => {
+    const activeStart = this.calendarComponent.getApi().view.activeStart.toISOString();
+    const activeEnd = this.calendarComponent.getApi().view.activeEnd.toISOString();
+    this.exportIcalSubscriber = this.icalService.exportIcal(activeStart, activeEnd).subscribe(res => {
       const blob = new Blob([res], { type: "text/plain;charset=utf-8" });
       fileSaver.saveAs(blob, "agenda.ics");
     });

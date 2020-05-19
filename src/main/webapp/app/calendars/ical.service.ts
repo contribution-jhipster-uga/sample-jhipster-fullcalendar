@@ -11,8 +11,8 @@ export class IcalService {
 
   constructor(protected http: HttpClient) { }
 
-  exportIcal(): Observable<string> {
-    return this.http.get(`${this.resourceUrl}/ical`, { observe: 'body', responseType: "text" })
+  exportIcal(activeStart:string, activeEnd:string): Observable<string> {
+    return this.http.get(`${this.resourceUrl}/ical`, {params: {["activeStart"]:activeStart, ["activeEnd"]:activeEnd}, observe: 'body', responseType: "text" })
   }
 
   importIcal(uploadData: FormData): Observable<HttpResponse<Object>> {

@@ -10,6 +10,7 @@ import com.mycompany.myapp.service.CalendarEventQueryService;
 import com.mycompany.myapp.service.CalendarEventService;
 import com.mycompany.myapp.service.CalendarService;
 import com.mycompany.myapp.service.dto.CalendarDTO;
+import com.mycompany.myapp.service.dto.CalendarEventCriteria;
 import com.mycompany.myapp.service.dto.CalendarEventDTO;
 
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.github.jhipster.service.filter.InstantFilter;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
@@ -55,9 +57,12 @@ public class IcalResource {
      * root folder
      */
     @GetMapping("/calendar-events/ical")
-    public ResponseEntity<String> exportIcal() throws ParseException, ValidationException, IOException {
+    public ResponseEntity<String> exportIcal(String activeStart, String activeEnd) throws ParseException, ValidationException, IOException {
         log.debug("REST request to export calendar events as an ics file");
-        List<CalendarEventDTO> allEvents = calendarEventQueryService.findByCriteria(null);
+        CalendarEventCriteria crit = new CalendarEventCriteria();
+        crit.setStartDate(new InstantFilter().setGreaterThanOrEqual(Instant.parse(activeStart)));
+        crit.setEndDate(new InstantFilter().setLessThanOrEqual(Instant.parse(activeEnd)));
+        List<CalendarEventDTO> allEvents = calendarEventQueryService.findByCriteria(crit);
         Calendar ical = new Calendar();
         ical.getProperties().add(new ProdId("-//JHipster//Generated 1.0//EN"));
         ical.getProperties().add(Version.VERSION_2_0);
