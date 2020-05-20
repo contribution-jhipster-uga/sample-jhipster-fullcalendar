@@ -134,7 +134,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   exportIcal(): void {
     const activeStart = this.calendarComponent.getApi().view.activeStart.toISOString();
     const activeEnd = this.calendarComponent.getApi().view.activeEnd.toISOString();
-    this.exportIcalSubscriber = this.icalService.exportIcal(activeStart, activeEnd).subscribe(res => {
+    this.exportIcalSubscriber = this.icalService.exportIcal(activeStart, activeEnd, this.account ? this.account.id : undefined).subscribe(res => {
       const blob = new Blob([res], { type: "text/plain;charset=utf-8" });
       fileSaver.saveAs(blob, "agenda.ics");
     });

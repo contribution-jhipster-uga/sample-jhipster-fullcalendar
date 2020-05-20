@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.InstantFilter;
+import io.github.jhipster.service.filter.LongFilter;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
@@ -57,18 +59,28 @@ public class IcalResource {
      * root folder
      */
     @GetMapping("/calendar-events/ical")
-    public ResponseEntity<String> exportIcal(String activeStart, String activeEnd) throws ParseException, ValidationException, IOException {
+    public ResponseEntity<String> exportIcal(String activeStart, String activeEnd, String accid)
+            throws ParseException, ValidationException, IOException {
         log.debug("REST request to export calendar events as an ics file");
+        log.debug("Params: From " + activeStart + " to " + activeEnd + " by " + accid);
+        
         CalendarEventCriteria crit = new CalendarEventCriteria();
         crit.setStartDate(new InstantFilter().setGreaterThanOrEqual(Instant.parse(activeStart)));
         crit.setEndDate(new InstantFilter().setLessThanOrEqual(Instant.parse(activeEnd)));
-        List<CalendarEventDTO> allEvents = calendarEventQueryService.findByCriteria(crit);
+        crit.setIsPublic((BooleanFilter) new BooleanFilter().setEquals(true));
+        List<CalendarEventDTO> events = calendarEventQueryService.findByCriteria(crit);
+        if (accid != null) {
+            crit.setIsPublic((BooleanFilter) new BooleanFilter().setEquals(false));
+            crit.setCreatedById((LongFilter) new LongFilter().setEquals(Long.parseLong(accid)));
+            events.addAll(calendarEventQueryService.findByCriteria(crit));
+        }
+
         Calendar ical = new Calendar();
         ical.getProperties().add(new ProdId("-//JHipster//Generated 1.0//EN"));
         ical.getProperties().add(Version.VERSION_2_0);
         ical.getProperties().add(CalScale.GREGORIAN);
 
-        for (CalendarEventDTO e : allEvents) {
+        for (CalendarEventDTO e : events) {
             VEvent ev = new VEvent(new DateTime(DateTime.from(e.getStartDate())),
                     new DateTime(DateTime.from(e.getEndDate())), e.getTitle());
             ev.getProperties().add(new Uid(e.getUid().toString()));
@@ -84,9 +96,10 @@ public class IcalResource {
      * @throws ParserException
      */
     @PostMapping("/calendar-events/ical")
-    public ResponseEntity<String> importIcal(@RequestParam(value = "icsFile") MultipartFile file) throws ParseException, IOException, ParserException {
+    public ResponseEntity<String> importIcal(@RequestParam(value = "icsFile") MultipartFile file)
+            throws ParseException, IOException, ParserException {
         log.debug("REST request to import calendar events from file" + file.getName());
-        
+
         CalendarBuilder builder = new CalendarBuilder();
         Calendar cal = builder.build(file.getInputStream());
 
@@ -115,7 +128,7 @@ public class IcalResource {
             e.setCalendarId(cId);
             calendarEventService.save(e);
         }
-        
+
         return ResponseEntity.ok().body("\"Import iCal OK\"");
     }
 }
