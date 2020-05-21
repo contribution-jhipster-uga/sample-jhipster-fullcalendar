@@ -30,7 +30,7 @@
       <button class="btn btn-secondary btn-block" id="dropdownIcal" ngbDropdownToggle>ICAL</button>
       <div ngbDropdownMenu aria-labelledby="dropdownIcal">
         <button ngbDropdownItem (click)="exportIcal()">Export Agenda</button>
-        <button ngbDropdownItem (click)="fileInput.click()"> Import Agenda
+        <button ngbDropdownItem (click)="fileInput.click()" [disabled]="!isAuthenticated()"> Import Agenda
           <input #fileInput type="file" (change)="onFileInput($event)" style="display:none;" />
         </button>
       </div>

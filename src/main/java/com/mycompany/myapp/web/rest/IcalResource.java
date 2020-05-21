@@ -63,7 +63,7 @@ public class IcalResource {
             throws ParseException, ValidationException, IOException {
         log.debug("REST request to export calendar events as an ics file");
         log.debug("Params: From " + activeStart + " to " + activeEnd + " by " + accid);
-        
+
         CalendarEventCriteria crit = new CalendarEventCriteria();
         crit.setStartDate(new InstantFilter().setGreaterThanOrEqual(Instant.parse(activeStart)));
         crit.setEndDate(new InstantFilter().setLessThanOrEqual(Instant.parse(activeEnd)));
@@ -96,7 +96,7 @@ public class IcalResource {
      * @throws ParserException
      */
     @PostMapping("/calendar-events/ical")
-    public ResponseEntity<String> importIcal(@RequestParam(value = "icsFile") MultipartFile file)
+    public ResponseEntity<String> importIcal(@RequestParam(value = "icsFile") MultipartFile file, String accid)
             throws ParseException, IOException, ParserException {
         log.debug("REST request to import calendar events from file" + file.getName());
 
@@ -109,7 +109,8 @@ public class IcalResource {
         String cTitle = cal.getProductId().toString();
         c.setTitle(cTitle.substring(cTitle.indexOf("//") + 2));
         c.setCreatedAt(now);
-        c.setOwnedById((long) 3);
+        Long createdby = Long.parseLong(accid);
+        c.setOwnedById(createdby);
         c.setUid(UUID.randomUUID());
         long cId = calendarService.save(c).getId();
 
@@ -121,10 +122,10 @@ public class IcalResource {
             e.setEndDate(Instant.parse(new StringBuilder(ev.getProperty("DTEND").getValue()).insert(4, "-")
                     .insert(7, "-").insert(13, ":").insert(16, ":").toString()));
             e.setUid(UUID.randomUUID());
-            e.setIsPublic(true);
+            e.setIsPublic(false);
             e.setCreatedAt(now);
             e.setUpdatedAt(now);
-            e.setCreatedById((long) 3);
+            e.setCreatedById(createdby);
             e.setCalendarId(cId);
             calendarEventService.save(e);
         }

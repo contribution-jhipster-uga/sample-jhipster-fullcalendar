@@ -143,9 +143,9 @@ export class CalendarsComponent implements OnInit, OnDestroy {
   onFileInput(event: any): void {
     const selectedFile = event.target.files[0];
     const uploadData = new FormData();
-    if (selectedFile) {
+    if (selectedFile && this.account) {
       uploadData.append("icsFile", selectedFile, selectedFile.name);
-      this.importIcalSubscriber = this.icalService.importIcal(uploadData).subscribe(() => {
+      this.importIcalSubscriber = this.icalService.importIcal(uploadData, this.account.id).subscribe(() => {
         this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/calendars']);
         });
