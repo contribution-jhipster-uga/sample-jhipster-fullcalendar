@@ -26,10 +26,19 @@
         </span>
       </button>
     </div>
+    <div ngbDropdown class="d-inline-block my-4">
+      <button class="btn btn-secondary btn-block" id="dropdownIcal" ngbDropdownToggle>ICAL</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownIcal">
+        <button ngbDropdownItem (click)="exportIcal()">Export Agenda</button>
+        <button ngbDropdownItem (click)="fileInput.click()" [disabled]="!isAuthenticated()"> Import Agenda
+          <input #fileInput type="file" (change)="onFileInput($event)" style="display:none;" />
+        </button>
+      </div>
+    </div>
   </div>
   <div class="col-sm-9">
-    <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" (eventClick)="handleEventClick($event)"
-      [events]="displayedEvents" [locale]="loc" [header]="{
+    <full-calendar #calendar defaultView="dayGridMonth" [plugins]="calendarPlugins"
+      (eventClick)="handleEventClick($event)" [locale]="loc" [events]="displayedEvents" [header]="{
       right: 'prev,next today',
       center: 'title',
       left: 'dayGridMonth timeGridWeek timeGridDay'

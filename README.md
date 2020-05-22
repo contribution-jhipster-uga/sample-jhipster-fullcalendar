@@ -13,16 +13,6 @@ This is a sample JHipster generated application using the [fullCalendar library]
 
 Just pull this repo in your local forlder of choice using git and launch the maven compiler
 
-```bash
-git init
-git remote add origin https://github.com/contribution-jhipster-uga/sample-jhipster-fullcalendar.git
-git checkout -b feature/ical4j
-git fetch --all
-git pull origin feature/ical4j
-
-./mvnw
-```
-
 # Usage
 
 To try out the features navigate to `/calendars`. To view existing events you may need to navigate to February 2020. Clicking on an event will open a modal window containing basic information about the event. You can create new calendars and events which will be displayed in the calendars page. It also supports multiple languages.

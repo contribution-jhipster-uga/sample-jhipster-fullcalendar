@@ -1,15 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
+import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+<<<<<<< HEAD
 // Find a way to import this file in order to solve the calendar headers 
 // (today, day, week and month buttons) not changing language bug
 // import allLocales from '@fullcalendar/core/locales-all.js';
+=======
+>>>>>>> feature/ical4j
 
 import { EventModalComponent } from './event-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,21 +24,29 @@ import { ICalendarEvent } from 'app/shared/model/calendar-event.model';
 import { CalendarEventService } from 'app/entities/calendar-event/calendar-event.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
+import { IcalService } from './ical.service'
+
+import * as fileSaver from 'file-saver';
+
 
 @Component({
   selector: 'jhi-calendars',
   templateUrl: './calendars.component.html'
 })
 export class CalendarsComponent implements OnInit, OnDestroy {
+  @ViewChild('calendar', { static: false }) calendarComponent!: FullCalendarComponent;
+
   calendarList: ICalendar[];
   calendarEvents: ICalendarEvent[];
   displayedEvents: {}[];
   checkedCals: { calid?: number; checked: boolean }[];
-  eventSubscriber?: Subscription;
-  calendarSubscriber?: Subscription;
   calendarPlugins = [dayGridPlugin, timeGridPlugin];
   account: Account | null = null;
   authSubscription?: Subscription;
+  eventSubscriber?: Subscription;
+  calendarSubscriber?: Subscription;
+  exportIcalSubscriber?: Subscription;
+  importIcalSubscriber?: Subscription;
   loc: string;
 
   constructor(
@@ -42,6 +54,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     protected calendarService: CalendarService,
     protected calendarEventService: CalendarEventService,
+    protected icalService: IcalService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -56,7 +69,7 @@ export class CalendarsComponent implements OnInit, OnDestroy {
 
   loadAll(): void {
     this.calendarService.query().subscribe((res: HttpResponse<ICalendar[]>) => this.onCalendarSuccess(res.body));
-    this.calendarEventService.query().subscribe((res: HttpResponse<ICalendarEvent[]>) => this.onCalendarEventSuccess(res.body));
+    this.calendarEventService.query({ size: 300 }).subscribe((res: HttpResponse<ICalendarEvent[]>) => this.onCalendarEventSuccess(res.body));
   }
 
   ngOnInit(): void {
@@ -71,6 +84,8 @@ export class CalendarsComponent implements OnInit, OnDestroy {
     if (this.calendarSubscriber) this.eventManager.destroy(this.calendarSubscriber);
     if (this.eventSubscriber) this.eventManager.destroy(this.eventSubscriber);
     if (this.authSubscription) this.authSubscription.unsubscribe();
+    if (this.exportIcalSubscriber) this.exportIcalSubscriber.unsubscribe();
+    if (this.importIcalSubscriber) this.importIcalSubscriber.unsubscribe();
   }
 
   isAuthenticated(): boolean {
@@ -124,7 +139,28 @@ export class CalendarsComponent implements OnInit, OnDestroy {
 
   handleEventClick(info: any): void {
     const modalRef = this.EventModalService.open(EventModalComponent);
-    // console.log(this.calendarEvents.find(e => e.uid === info.event._def.publicId));
     modalRef.componentInstance.eventObject = this.calendarEvents.find(e => e.uid === info.event._def.publicId);
+  }
+
+  exportIcal(): void {
+    const activeStart = this.calendarComponent.getApi().view.activeStart.toISOString();
+    const activeEnd = this.calendarComponent.getApi().view.activeEnd.toISOString();
+    this.exportIcalSubscriber = this.icalService.exportIcal(activeStart, activeEnd, this.account ? this.account.id : undefined).subscribe(res => {
+      const blob = new Blob([res], { type: "text/plain;charset=utf-8" });
+      fileSaver.saveAs(blob, "agenda.ics");
+    });
+  }
+
+  onFileInput(event: any): void {
+    const selectedFile = event.target.files[0];
+    const uploadData = new FormData();
+    if (selectedFile && this.account) {
+      uploadData.append("icsFile", selectedFile, selectedFile.name);
+      this.importIcalSubscriber = this.icalService.importIcal(uploadData, this.account.id).subscribe(() => {
+        this.router.navigateByUrl('', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/calendars']);
+        });
+      });
+    }
   }
 }
