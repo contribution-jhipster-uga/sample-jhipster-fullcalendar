@@ -8,12 +8,9 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-<<<<<<< HEAD
 // Find a way to import this file in order to solve the calendar headers 
 // (today, day, week and month buttons) not changing language bug
 // import allLocales from '@fullcalendar/core/locales-all.js';
-=======
->>>>>>> feature/ical4j
 
 import { EventModalComponent } from './event-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
