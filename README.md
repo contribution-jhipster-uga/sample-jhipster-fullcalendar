@@ -37,7 +37,7 @@ You can find the marketplace module generator [here](https://github.com/contribu
 ICal4j is a java library for parsing and building iCalendar data models. It helps with ics agenda file manipulation following the ical convetion. More information about the ical4j library can be found in the following links: [github repo](https://github.com/ical4j/ical4j), [Home wiki](https://github.com/ical4j/ical4j/wiki), [Examples](https://github.com/ical4j/ical4j/wiki/Examples).
 
 ## Usage
-To try out the features navigate to `/calendars` page and click on the `ical` button dropdown. You can either export the current events as an ics file or import events from an ics file.
+To try out the features navigate to `/calendars` page and click on the `ical` button dropdown. You can either export the current events as an ics file or import events from an ics file. You can find tutorial videos [here](https://drive.google.com/open?id=1Iea4yBwePS1FVcW_zDaZHjsEbxya6ya_).
 
 ### Import
 To import an ics file you must have an account and be logged in. The imported events will be private to the logged in account. If wanted, this can be easily changed in the entities page.
